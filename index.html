@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+        // 解析URL参数函数
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // 页面加载完成后执行的函数
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取名为'lang'的URL参数
+            var lang = getParameterByName('lang'); // 例如 "en" 或 "es"
+            
+            // 如果参数存在，执行跳转
+            if (lang) {
+                var newPath = lang + '/index.html'; // 构造新的路径
+                window.location.pathname = newPath; // 跳转到对应的路径
+            }
+        });
+    </script>
+</head>
+<body>
+    <p>Redirecting you to the localized version of the page...</p>
+</body>
+</html>
