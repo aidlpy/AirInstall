@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
-    <script type="text/javascript">
-        // 解析URL参数函数
+    <title>App Download</title>
+      <script>
         function getParameterByName(name, url = window.location.href) {
             name = name.replace(/[\[\]]/g, '\\$&');
             var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
@@ -15,20 +14,82 @@
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
 
-        // 页面加载完成后执行的函数
-        document.addEventListener('DOMContentLoaded', function() {
-            // 获取名为'lang'的URL参数
-            var lang = getParameterByName('lang'); // 例如 "en" 或 "es"
-            
-            // 如果参数存在，执行跳转
-            if (lang) {
-                var newPath = lang + '/index.html'; // 构造新的路径
-                window.location.pathname = newPath; // 跳转到对应的路径
+        function translateContent(lang) {
+            var content = {
+                "en": {
+                    "title": "Download Our App",
+                    "description": "Scan the QR Code below to install our app",
+                    "install": "Or click here to install directly"
+                },
+                "es": {
+                    "title": "Descarga Nuestra App",
+                    "description": "Escanee el código QR a continuación para instalar nuestra app",
+                    "install": "O haz clic aquí para instalar directamente"
+                }
+                // Add more languages as needed
+            };
+
+            if (content[lang]) {
+                document.getElementById("title").textContent = content[lang].title;
+                document.getElementById("description").textContent = content[lang].description;
+                document.getElementById("install").textContent = content[lang].install;
             }
+        }
+
+        function installApp() {
+            window.location.href = 'itms-services://?action=download-manifest&url=https://github.com/aidlpy/AirInstall/lm/manifest.plist';
+        }
+
+        document.addEventListener("DOMContentLoaded", function(){
+            var lang = getParameterByName('lang') || 'en'; // Default to English
+            translateContent(lang);
         });
     </script>
+    <style>
+        body {
+            text-align: center;
+            margin: 0;
+            padding: 50px;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .app-logo {
+            width: 80%;
+            margin: auto;
+        }
+        .install-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 20px auto;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            display: block; /* Make the button block level */
+        }
+        .install-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <p>Redirecting you to the localized version of the page...</p>
+    <div class="container">
+        <h1 id="title">Download Our App</h1>
+        <p id="description">Click the button below to install our app</p>
+        <img src="./image.512x512.png" alt="App Logo" class="app-logo">
+        <button onclick="installApp()" class="install-button">Install App</button>
+    </div>
 </body>
 </html>
+
