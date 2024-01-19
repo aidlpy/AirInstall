@@ -5,6 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App Download</title>
       <script>
+        var currentLang = 'en'; // 默认语言设置
+        var content = {
+                "en": {
+                    "title": "Download Our App",
+                    "description": "Please open with Safari browser",
+                    "install": "install",
+                    "installing":"installing",
+                    "done":"done"
+                    
+                },
+                "cn": {
+                    "title": "下载我们的app",
+                    "description": "请使用Safari浏览器打开",
+                    "install": "安装",
+                    "installing":"安装中",
+                    "done":"完成"
+                }
+
+            };
         function getParameterByName(name, url = window.location.href) {
             name = name.replace(/[\[\]]/g, '\\$&');
             var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
@@ -15,20 +34,6 @@
         }
 
         function translateContent(lang) {
-            var content = {
-                "en": {
-                    "title": "Download Our App",
-                    "description": "Please open with Safari browser",
-                    "install": "install"
-                },
-                "cn": {
-                    "title": "下载我们的app",
-                    "description": "请使用Safari浏览器打开",
-                    "install": "安装"
-                }
-                
-            };
-
             if (content[lang]) {
                 document.getElementById("title").textContent = content[lang].title;
                 document.getElementById("description").textContent = content[lang].description;
@@ -37,8 +42,24 @@
         }
 
         function installApp() {
-            window.location.href = 'itms-services://?action=download-manifest&url=https://aidlpy.github.io/AirInstall/manifest.plist';
-        }
+            var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            if (isSafari) {
+                installButton.disabled = true;
+                console.log("Safari detected. Waiting for 30 seconds.");
+                window.location.href = 'itms-services://?action=download-manifest&url=https://aidlpy.github.io/AirInstall/manifest.plist';
+                var installButton = document.getElementById('your-install-button-id');
+                installButton.textContent = content[currentLang].installing;
+                
+                // 在 30 秒后执行操作
+                setTimeout(function() {
+                    // 在这里添加您需要在 30 秒后执行的代码
+                    installButton.textContent = content[currentLang].done;
+                    installButton.disabled = false; // 重新激活按钮
+                }, 30000);  // 30000 毫秒等于 30 秒
+            } else {
+                console.log("This is not Safari.");
+            }
+         }
 
         document.addEventListener("DOMContentLoaded", function(){
             var lang = getParameterByName('lang') || 'en'; // Default to English
