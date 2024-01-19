@@ -18,13 +18,13 @@
             var content = {
                 "en": {
                     "title": "Download Our App",
-                    "description": "Scan the QR Code below to install our app",
-                    "install": "Or click here to install directly"
+                    "description": "Please open with Safari browser",
+                    "install": "install"
                 },
-                "es": {
-                    "title": "Descarga Nuestra App",
-                    "description": "Escanee el código QR a continuación para instalar nuestra app",
-                    "install": "O haz clic aquí para instalar directamente"
+                "cn": {
+                    "title": "下载我们的app",
+                    "description": "请使用Safari浏览器打开",
+                    "install": "安装"
                 }
                 // Add more languages as needed
             };
@@ -88,7 +88,7 @@
         <h1 id="title">Download Our App</h1>
         <p id="description">Click the button below to install our app</p>
         <img src="./image.512x512.png" alt="App Logo" class="app-logo">
-        <button onclick="installApp()" class="install-button">Install App</button>
+        <button id="install" onclick="installApp()" class="install-button">Install</button>
     </div>
 </body>
 </html>
